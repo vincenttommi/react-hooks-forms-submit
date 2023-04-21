@@ -10,40 +10,20 @@ const[firstName, setFirstName] = useState("vincent")
 //firstelement of the array is initialised with string"vincent"
 //second element of array  setfirstName is 
 // a function used to update the first element
-const[lastName, setlastName] =useState("tommi");
+const[lastName, setLastName] =useState("tommi");
 const[submittedData, setSubmittedData] = useState([]);
-
-// these code creates a state variable and initialises it with an empty array wherebyby the hook returns an array with two elements
-//then provides a function setSubmitteddata  that can be used to update its value of submitted data
-  // function handleSubmit(event){
-  //    event.preventDefault();
-  //    //prevents the page from reloading
-
-  //    const formData={
-
-  //     //defines a Constant variable formData and assigns it to objects where
-  //     //lastname and firstnamw where our data is being captured and also putting
-  //     //all together current formData into an object using stored values in state
-
-  //       firstName: e.target[0].value,
-  //       lastName: e.target[1].value,
-
-     
-  // };
-
-
   function handleFirstNameChange(event){
 // its a  function handleLastNamechange 
 // which expects  an event objects as its argument
 
      setFirstName(event.target.value);
      //uses  setFirstName function to update  state variable lastname
-     //with event to targetted value in inout form
+     //with event to targetted value in inour form
   }
 
   function handleLastNameChange(event){
 
-   setlastName(event.target.value);
+   setLastName(event.target.value);
 
 
    //overalll this code  defines a function that updates
@@ -54,9 +34,17 @@ const[submittedData, setSubmittedData] = useState([]);
   }
 
 
+
+
+const [errors, setErrors] = useState([]);
+  //adding state for holding error messages
  function handleSubmit(event){
 
   event.preventDefault();
+
+  ///validating inputs fields
+
+  if(firstName.length > 0){
   const formData = {firstName: firstName, lastName: lastName};
   // defines Constant array formData where  it has objects firstname and lastname where 
   // it captures and stores data in state  variable
@@ -68,9 +56,18 @@ const[submittedData, setSubmittedData] = useState([]);
 
    //overall this code creates a  new array data array that includes all the data submitted
   setSubmittedData(dataArray);
+  // setSubmiiteddata is  afunction that sets the value of a state 
+  // variable named submittedData to Dataarray
   setFirstName("");
   // empties the input value when then captured data is submitted
-  setlastName(""); 
+  setLastName(""); 
+  setErrors([]);
+  }else{
+
+
+  setErrors(['First name is required!']);
+
+  }
 
  }
 
@@ -109,6 +106,18 @@ return(
     <input type="text" onChange={handleLastNameChange} value={lastName} />
     <button type="submit">Submit</button>
     </form>
+
+
+    {/* condittionally render error messages */}
+    {errors.length > 0
+    
+      ? errors.map((error, index) => (
+        <p key={index} style={{color: "red"}}>
+          {error}
+        </p>
+      ))
+    : null}
+
     
     <h3>Submissions</h3>
     {listofSubmissions}
